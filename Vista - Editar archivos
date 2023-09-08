@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>File Operations</title>
+</head>
+<body>
+    <h1>File Operations</h1>
+    <form action="FileController" method="post" enctype="multipart/form-data">
+        <input type="file" name="file">
+        <input type="hidden" name="action" value="upload">
+        <input type="submit" value="Upload File">
+    </form>
+    <br>
+    <form action="FileController" method="post">
+        <input type="hidden" name="action" value="download">
+        <input type="submit" value="Download File">
+    </form>
+    <br>
+    <form action="FileController" method="post">
+        <input type="hidden" name="action" value="delete">
+        <input type="submit" value="Delete File">
+    </form>
+</body>
+</html>
