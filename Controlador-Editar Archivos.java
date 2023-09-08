@@ -42,6 +42,31 @@ public class Editor_Con extends HttpServlet {
             } catch (IOException e) {
                 response.getWriter().write("Error al subir el archivo: " + e.getMessage());
             }
+
+        } else if ("uploadCSV".equals(action)) {
+            Part filePart = request.getPart("file");
+            String fileName = getFileName(filePart);
+
+            try (InputStream fileContent = filePart.getInputStream();
+                 InputStreamReader reader = new InputStreamReader(fileContent);
+                 BufferedReader bufferedReader = new BufferedReader(reader)) {
+            
+                 String line;
+                 while ((line = bufferedReader.readLine()) != null) {
+                    // Dividir la línea del CSV en tokens utilizando una coma como separador
+                    StringTokenizer tokenizer = new StringTokenizer(line, ",");
+
+                    while (tokenizer.hasMoreTokens()) {
+                        // Acceder a cada token y realizar las acciones necesarias
+                        String token = tokenizer.nextToken();
+                        System.out.println("Token: " + token);
+                    }
+                 }
+                response.getWriter().write("Archivo CSV procesado con éxito.");
+            } catch (IOException e) {
+                response.getWriter().write("Error al procesar el archivo CSV: " + e.getMessage());
+            }
+
         } else if ("download".equals(action)) {
             String fileName = "nombre_del_archivo_a_descargar.txt"; // Nombre del archivo a descargar (deberías obtenerlo de la solicitud)
             String filePath = getServletContext().getRealPath("/uploads/" + fileName);
@@ -74,3 +99,9 @@ public class Editor_Con extends HttpServlet {
         }
     }
 }
+/* <form id="upload-form" action="/tu-contexto-de-servlet/Editor_Con" method="POST" enctype="multipart/form-data">
+    <input type="file" name="file" id="file" accept=".csv">
+    <input type="hidden" name="action" value="uploadCSV">
+    <input type="submit" value="Subir CSV">
+</form>
+*/
